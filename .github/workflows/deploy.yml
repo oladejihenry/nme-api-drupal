@@ -22,13 +22,19 @@ jobs:
       - name: Rsync files to EC2
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+          chmod 700 ~/.ssh
+
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
           rsync -avz --delete \
-            --exclude 'web/sites/default/files' \
-            --exclude '.git' \
-            --exclude 'node_modules' \
-            -e "ssh -i ${{ secrets.EC2_SSH_KEY }}" \
-            ./ ubuntu@${{ secrets.EC2_HOST }}:/var/www/mysite
+          --exclude 'web/sites/default/files' \
+          --exclude '.git' \
+          --exclude 'node_modules' \
+          -e "ssh -i ~/.ssh/id_rsa" \
+          ./ ubuntu@${{ secrets.EC2_HOST }}:/var/www/mysite
 
       - name: Run deployment commands on EC2
         uses: appleboy/ssh-action@v0.1.7
