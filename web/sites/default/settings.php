@@ -116,6 +116,7 @@ $databases['default']['default'] = [
   'prefix' => '',
   'collation' => 'utf8mb4_general_ci',
   'sslmode' => 'required',
+  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'pdo' => [
     PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
   ],
