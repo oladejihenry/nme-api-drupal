@@ -30,7 +30,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
           rsync -avz --delete \
-          --exclude 'web/sites/default/files' \
+
           --exclude '.git' \
           --exclude '.env' \
           --exclude 'node_modules' \
