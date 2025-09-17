@@ -138,6 +138,15 @@ $databases['default']['default'] = [
 ];
 
 
+$settings['hash_salt'] = $_ENV['HASH_SALT'];
+
+
+
+if (empty($settings['config_sync_directory'])) {
+  $settings['config_sync_directory'] = 'sites/default/files/sync';
+}
+
+
 
 /**
  * Customizing database settings.
