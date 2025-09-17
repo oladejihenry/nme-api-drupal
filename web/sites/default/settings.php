@@ -116,6 +116,9 @@ $databases['default']['default'] = [
   'prefix' => '',
   'collation' => 'utf8mb4_general_ci',
   'sslmode' => 'required',
+  'pdo' => [
+    PDO::MYSQL_ATTR_SSL_CA => '/web/sites/default/ca.crt',
+  ],
 ];
 
 
