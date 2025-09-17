@@ -115,7 +115,7 @@ $databases['default']['default'] = [
   'driver' => 'mysql', // <-- MySQL here
   'prefix' => '',
   'collation' => 'utf8mb4_general_ci',
-  'sslmode' => 'required',
+  // 'sslmode' => 'required',
   'pdo' => [
     PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
   ],
