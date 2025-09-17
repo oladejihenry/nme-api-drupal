@@ -880,9 +880,7 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
   include __DIR__ . '/settings.ddev.php';
 }
 
-$prod = $_ENV['PROD'];
-
-if ($prod == 'true' && file_exists(__DIR__ . '/settings.prod.php')) {
+if (getenv('PROD') == 'true' && file_exists(__DIR__ . '/settings.prod.php')) {
   include __DIR__ . '/settings.prod.php';
 }
 
