@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * NME News module functionality.
+ */
+
+use Drupal\Core\Template\Attribute;
+
+/**
+ * Implements hook_theme().
+ */
+function nme_news_theme() {
+  return [
+    'nme_news_block' => [
+      'variables' => [
+        'articles' => [],
+        'title' => 'Latest News from NME',
+      ],
+      'template' => 'nme-news-block',
+    ],
+    'nme_news_article' => [
+      'variables' => [
+        'article' => [],
+      ],
+      'template' => 'nme-news-article',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function nme_news_preprocess_nme_news_block(&$variables) {
+  // Add Tailwind CSS classes to the block wrapper
+  $variables['attributes'] = new Attribute([
+    'class' => [
+      'nme-news-block',
+      'max-w-7xl',
+      'mx-auto',
+      'px-4',
+      'py-8',
+    ],
+  ]);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function nme_news_preprocess_nme_news_article(&$variables) {
+  $article = $variables['article'];
+  
+  // Add Tailwind CSS classes to the article wrapper
+  $variables['attributes'] = new Attribute([
+    'class' => [
+      'nme-news-article',
+      'bg-white',
+      'rounded-lg',
+      'shadow-md',
+      'overflow-hidden',
+      'hover:shadow-lg',
+      'transition-shadow',
+      'duration-300',
+    ],
+  ]);
+  
+  // Format the date
+  if (isset($article['date'])) {
+    $date = new \DateTime($article['date']);
+    $variables['formatted_date'] = $date->format('F j, Y');
+  }
+  
+  // Clean up the content excerpt
+  if (isset($article['content']['rendered'])) {
+    $content = strip_tags($article['content']['rendered']);
+    $variables['excerpt'] = substr($content, 0, 150) . '...';
+  }
+  
+  // Ensure thumbnail_url is available
+  if (isset($article['thumbnail_url'])) {
+    $variables['article']['thumbnail_url'] = $article['thumbnail_url'];
+  }
+}

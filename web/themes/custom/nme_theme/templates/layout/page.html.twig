@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * Theme override to display a single page.
+ */
+#}
+<div class="min-h-screen bg-gray-50">
+  <header class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center py-6">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-bold text-gray-900">{{ site_name }}</h1>
+        </div>
+        <nav class="hidden md:flex space-x-8">
+          {{ page.primary_menu }}
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    {{ page.content }}
+  </main>
+
+  <footer class="bg-gray-800 text-white py-8 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <p>&copy; {{ "now"|date("Y") }} {{ site_name }}. Powered by Drupal 11.</p>
+      </div>
+    </div>
+  </footer>
+</div>

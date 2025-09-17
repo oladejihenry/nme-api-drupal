@@ -1,0 +1,18 @@
+# IDEs
+/.idea
+/.vscode
+
+# Node / frontend
+/node_modules
+/package.json
+/package-lock.json
+
+# Composer / PHP
+/vendor
+/composer.lock
+
+# Drupal-specific
+/sites/*/files
+/sites/*/private
+/sites/*/settings*.php
+/config/sync

@@ -1,0 +1,6 @@
+nme_news.config:
+  title: "NME News"
+  description: "Configure NME News module settings"
+  parent: system.admin_config_content
+  route_name: nme_news.config
+  weight: 100

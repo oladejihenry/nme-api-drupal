@@ -1,0 +1,8 @@
+global-styling:
+  css:
+    theme:
+      https://cdn.tailwindcss.com: { type: external, minified: true }
+  js:
+    https://cdn.tailwindcss.com: { type: external, minified: true }
+  dependencies:
+    - core/drupal

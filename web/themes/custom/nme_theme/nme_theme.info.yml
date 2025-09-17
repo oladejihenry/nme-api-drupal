@@ -1,0 +1,7 @@
+name: "NME Theme"
+type: theme
+description: "Custom theme for NME News with Tailwind CSS"
+core_version_requirement: ^11
+base theme: false
+libraries:
+  - nme_theme/global-styling

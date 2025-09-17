@@ -1,0 +1,5 @@
+services:
+  nme_news.service:
+    class: Drupal\nme_news\Service\NmeNewsService
+    arguments:
+      ["@http_client", "@cache.default", "@config.factory", "@logger.factory"]

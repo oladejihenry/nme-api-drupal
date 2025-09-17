@@ -1,0 +1,7 @@
+nme_news.config:
+  path: "/admin/config/content/nme-news"
+  defaults:
+    _form: '\Drupal\nme_news\Form\NmeNewsConfigForm'
+    _title: "NME News Configuration"
+  requirements:
+    _permission: "administer site configuration"
