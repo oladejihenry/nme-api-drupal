@@ -47,16 +47,22 @@ jobs:
             cd /var/www/mysite
             composer install --no-dev --optimize-autoloader
 
-            # Ensure writable temp dir
-            sudo mkdir -p web/sites/default/files/temp
+            # Ensure writable dirs exist
+            sudo mkdir -p web/sites/default/files/css \
+                        web/sites/default/files/js \
+                        web/sites/default/files/php \
+                        web/sites/default/files/temp
 
-            # Fix permissions
+            # Fix ownership and permissions
             sudo chown -R www-data:www-data web/sites/default/files
             sudo find web/sites/default/files -type d -exec chmod 775 {} \;
             sudo find web/sites/default/files -type f -exec chmod 664 {} \;
 
-            # Drupal tasks
-            vendor/bin/drush config:set system.file path.temporary sites/default/files/temp -y
-            vendor/bin/drush updatedb -y
-            vendor/bin/drush config:import -y || echo "No config import."
-            vendor/bin/drush cache:rebuild -y
+            # Optional: clean up old caches before Drush runs
+            sudo -u www-data rm -rf web/sites/default/files/css/* web/sites/default/files/js/* || true
+
+            # Drupal tasks (as www-data for safety)
+            sudo -u www-data vendor/bin/drush config:set system.file path.temporary sites/default/files/temp -y
+            sudo -u www-data vendor/bin/drush updatedb -y
+            sudo -u www-data vendor/bin/drush config:import -y || echo "No config import."
+            sudo -u www-data vendor/bin/drush cache:rebuild -y
