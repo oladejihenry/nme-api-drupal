@@ -1,0 +1,43 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Copy files to EC2
+        uses: appleboy/scp-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "."
+          target: "/var/www/mysite"
+
+      - name: Run deployment commands on EC2
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /var/www/mysite
+            composer install --no-dev --optimize-autoloader
+            sudo chown -R www-data:www-data web/sites/default/files
+            vendor/bin/drush updatedb -y
+            vendor/bin/drush config:import -y
+            vendor/bin/drush cache:rebuild -y
