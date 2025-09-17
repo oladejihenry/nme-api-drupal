@@ -20,13 +20,19 @@
         "drupal/core-project-message": "^11.2",
         "drupal/core-recipe-unpack": "^11.2",
         "drupal/core-recommended": "^11.2",
-        "drush/drush": "^13.6"
+        "drush/drush": "^13.6",
+        "vlucas/phpdotenv": "^5.6"
     },
     "conflict": {
         "drupal/drupal": "*"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
+    "autoload": {
+        "files": [
+            "load.environment.php"
+        ]
+    },
     "config": {
         "allow-plugins": {
             "composer/installers": true,

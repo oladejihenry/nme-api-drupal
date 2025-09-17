@@ -106,21 +106,21 @@
 //   ],
 // ];
 
-$databases['default']['default'] = [
-  'database' => $_ENV['DB_NAME'],
-  'username' => $_ENV['DB_USER'],
-  'password' => $_ENV['DB_PASSWORD'],
-  'host' => $_ENV['DB_HOST'],
-  'port' => $_ENV['DB_PORT'],
-  'driver' => 'mysql',
-  'prefix' => '',
-  'collation' => 'utf8mb4_general_ci',
-  'sslmode' => 'required',
-  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-  'pdo' => [
-    PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
-  ],
-];
+// $databases['default']['default'] = [
+//   'database' => $_ENV['DB_NAME'],
+//   'username' => $_ENV['DB_USER'],
+//   'password' => $_ENV['DB_PASSWORD'],
+//   'host' => $_ENV['DB_HOST'],
+//   'port' => $_ENV['DB_PORT'],
+//   'driver' => 'mysql',
+//   'prefix' => '',
+//   'collation' => 'utf8mb4_general_ci',
+//   'sslmode' => 'required',
+//   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+//   'pdo' => [
+//     PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
+//   ],
+// ];
 
 
 $databases['default']['default'] = [

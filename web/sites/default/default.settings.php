@@ -88,19 +88,7 @@
  * ];
  * @endcode
  */
-$databases['default']['default'] = [
-  'database' => $_ENV['MYSQL_DATABASE'],
-  'driver' => 'mysql',
-  'host' => $_ENV['MYSQL_HOSTNAME'],
-  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-  'password' => $_ENV['MYSQL_PASSWORD'],
-  'port' => $_ENV['MYSQL_PORT'],
-  'prefix' => '',
-  'username' => $_ENV['MYSQL_USER'],
-  'pdo' => [
-    PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
-  ],
-];
+$databases = [];
 
 /**
  * Customizing database settings.
