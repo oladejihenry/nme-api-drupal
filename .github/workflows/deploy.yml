@@ -46,9 +46,11 @@ jobs:
           script: |
             cd /var/www/mysite
             composer install --no-dev --optimize-autoloader
+            sudo mkdir -p web/sites/default/files/css \
+                         web/sites/default/files/js \
+                         web/sites/default/files/php
             sudo chown -R www-data:www-data web/sites/default/files
-            vendor/bin/drush updatedb -y
-            vendor/bin/drush config:import -y
-            vendor/bin/drush cache:rebuild -y
-            vendor/bin/drush cr
-            vendor/bin/drush theme:compile -y || true  # optional if using theme build tools
+            sudo chmod -R 775 web/sites/default/files
+            vendor/bin/drush updatedb -y --uri=default
+            vendor/bin/drush config:import -y --uri=default
+            vendor/bin/drush cache:rebuild -y --uri=default
