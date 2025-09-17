@@ -45,7 +45,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
-
             cd /var/www/mysite
 
             # Install backend deps
@@ -60,15 +59,15 @@ jobs:
             sudo chmod -R 775 web/sites/default/files
 
             # Run DB updates
-            vendor/bin/drush updatedb -y --uri=default
+            vendor/bin/drush updatedb -y
 
             # Run config import ONLY if sync dir exists and has YAML files
             if [ -d "web/sites/default/files/sync" ] && [ "$(ls -1 web/sites/default/files/sync/*.yml 2>/dev/null | wc -l)" -gt 0 ]; then
               echo "Config sync directory found with content, running config import..."
-              vendor/bin/drush config:import -y --uri=default
+              vendor/bin/drush config:import -y
             else
               echo "No config sync directory or empty, skipping config import."
             fi
 
             # Clear caches
-            vendor/bin/drush cache:rebuild -y --uri=default
+            vendor/bin/drush cache:rebuild -y
