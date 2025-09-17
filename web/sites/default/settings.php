@@ -107,11 +107,11 @@
 // ];
 
 $databases['default']['default'] = [
-  'database' => getenv('DB_NAME'),
-  'username' => getenv('DB_USER'),
-  'password' => getenv('DB_PASSWORD'),
-  'host' => getenv('DB_HOST'),
-  'port' => getenv('DB_PORT'),
+  'database' => $_ENV['DB_NAME'],
+  'username' => $_ENV['DB_USER'],
+  'password' => $_ENV['DB_PASSWORD'],
+  'host' => $_ENV['DB_HOST'],
+  'port' => $_ENV['DB_PORT'],
   'driver' => 'mysql',
   'prefix' => '',
   'collation' => 'utf8mb4_general_ci',
@@ -120,6 +120,7 @@ $databases['default']['default'] = [
     PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
   ],
 ];
+
 
 
 /**
