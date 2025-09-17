@@ -138,7 +138,7 @@ $databases['default']['default'] = [
 ];
 
 
-$settings['hash_salt'] = 'a30070af2416dba35ff5b9bb340e3f6ddc9e184bc9ec69cb1519ff176ee32293';
+$settings['hash_salt'] = $_ENV['HASH_SALT'];
 
 
 
@@ -344,7 +344,7 @@ if (empty($settings['config_sync_directory'])) {
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = '';
+// $settings['hash_salt'] = '';
 
 /**
  * Deployment identifier.
