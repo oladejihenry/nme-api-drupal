@@ -117,7 +117,7 @@ $databases['default']['default'] = [
   'collation' => 'utf8mb4_general_ci',
   'sslmode' => 'required',
   'pdo' => [
-    PDO::MYSQL_ATTR_SSL_CA => '/web/sites/default/ca.crt',
+    PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
   ],
 ];
 
