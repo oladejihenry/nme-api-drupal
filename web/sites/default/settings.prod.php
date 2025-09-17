@@ -147,6 +147,9 @@ if (empty($settings['config_sync_directory'])) {
 }
 
 
+$settings['skip_permissions_hardening'] = TRUE;
+
+
 
 /**
  * Customizing database settings.
