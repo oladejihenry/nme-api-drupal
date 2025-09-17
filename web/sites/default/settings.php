@@ -112,10 +112,10 @@ $databases['default']['default'] = [
   'password' => getenv('DB_PASSWORD'),
   'host' => getenv('DB_HOST'),
   'port' => getenv('DB_PORT'),
-  'driver' => 'mysql', // <-- MySQL here
+  'driver' => 'mysql',
   'prefix' => '',
   'collation' => 'utf8mb4_general_ci',
-  // 'sslmode' => 'required',
+  'sslmode' => 'required',
   'pdo' => [
     PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
   ],

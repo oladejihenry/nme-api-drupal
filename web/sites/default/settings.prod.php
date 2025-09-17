@@ -10,7 +10,7 @@
  */
 
 $host = getenv('DB_HOST');
-$port = 3306;
+$port = getenv('DB_PORT');
 $driver = "mysql";
 
 $databases['default']['default']['database'] = getenv('DB_NAME');
@@ -19,6 +19,10 @@ $databases['default']['default']['password'] = getenv('DB_PASSWORD');
 $databases['default']['default']['host'] = $host;
 $databases['default']['default']['port'] = $port;
 $databases['default']['default']['driver'] = $driver;
+$databases['default']['default']['sslmode'] = 'required';
+$databases['default']['default']['pdo'] = [
+    PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
+];
 
 $settings['hash_salt'] = '294ada778eb44e23ad20ee3ba9a238522e1d57993100601c2637be26e9239f0289809cb329542fba4c07022a0d525ae608ffd3298add134d9c13011aa25cb044';
 
