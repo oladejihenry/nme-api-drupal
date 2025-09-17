@@ -90,63 +90,7 @@
  * ];
  * @endcode
  */
-// $databases = [
-//   'default' => [
-//     'default' => [
-//       'database' => getenv('DB_NAME'),
-//       'username' => getenv('DB_USER'),
-//       'password' => getenv('DB_PASSWORD'),
-//       'host' => getenv('DB_HOST'),
-//       'port' => getenv('DB_PORT'),
-//       'driver' => 'mysql',
-//       'prefix' => '',
-//       'collation' => 'utf8mb4_general_ci',
-//       'sslmode' => 'required',
-//     ],
-//   ],
-// ];
-
-// $databases['default']['default'] = [
-//   'database' => $_ENV['DB_NAME'],
-//   'username' => $_ENV['DB_USER'],
-//   'password' => $_ENV['DB_PASSWORD'],
-//   'host' => $_ENV['DB_HOST'],
-//   'port' => $_ENV['DB_PORT'],
-//   'driver' => 'mysql',
-//   'prefix' => '',
-//   'collation' => 'utf8mb4_general_ci',
-//   'sslmode' => 'required',
-//   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-//   'pdo' => [
-//     PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
-//   ],
-// ];
-
-
-$databases['default']['default'] = [
-  'database' => $_ENV['MYSQL_DATABASE'],
-  'driver' => 'mysql',
-  'host' => $_ENV['MYSQL_HOSTNAME'],
-  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-  'password' => $_ENV['MYSQL_PASSWORD'],
-  'port' => $_ENV['MYSQL_PORT'],
-  'prefix' => '',
-  'username' => $_ENV['MYSQL_USER'],
-  'pdo' => [
-    PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
-  ],
-];
-
-
-$settings['hash_salt'] = $_ENV['HASH_SALT'];
-
-
-
-if (empty($settings['config_sync_directory'])) {
-  $settings['config_sync_directory'] = 'sites/default/files/sync';
-}
-
-
+$databases = [];
 
 /**
  * Customizing database settings.
@@ -344,7 +288,7 @@ if (empty($settings['config_sync_directory'])) {
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-// $settings['hash_salt'] = '';
+$settings['hash_salt'] = '';
 
 /**
  * Deployment identifier.
@@ -829,10 +773,7 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  *
  * @see https://www.drupal.org/docs/installing-drupal/trusted-host-settings
  */
-$settings['trusted_host_patterns'] = [
-  '^penzest\.dev$',
-  '^www\.penzest\.dev$',
-];
+# $settings['trusted_host_patterns'] = [];
 
 /**
  * The default list of directories that will be ignored by Drupal's file API.
@@ -939,10 +880,11 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
   include __DIR__ . '/settings.ddev.php';
 }
 
-//production settings
-// if (getenv('IS_DDEV_PROJECT') == 'false' && file_exists(__DIR__ . '/settings.prod.php')) {
-//   include __DIR__ . '/settings.prod.php';
-// }
+$prod = $_ENV['PROD'];
+
+if ($prod == 'true' && file_exists(__DIR__ . '/settings.prod.php')) {
+  include __DIR__ . '/settings.prod.php';
+}
 
 /**
  * Load local development override configuration, if available.
