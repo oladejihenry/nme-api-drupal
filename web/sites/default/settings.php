@@ -138,7 +138,7 @@ $databases['default']['default'] = [
 ];
 
 
-$settings['hash_salt'] = $_ENV['HASH_SALT'];
+$settings['hash_salt'] = 'a30070af2416dba35ff5b9bb340e3f6ddc9e184bc9ec69cb1519ff176ee32293';
 
 
 
