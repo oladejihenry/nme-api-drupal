@@ -143,7 +143,7 @@ $settings['hash_salt'] = $_ENV['HASH_SALT'];
 
 
 if (empty($settings['config_sync_directory'])) {
-    $settings['config_sync_directory'] = __DIR__ . '/../../config/sync';
+    $settings['config_sync_directory'] = 'var/www/mysite/config/sync';
 }
 
 
