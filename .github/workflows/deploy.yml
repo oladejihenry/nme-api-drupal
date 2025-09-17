@@ -34,7 +34,6 @@ jobs:
           --exclude '.git' \
           --exclude '.env' \
           --exclude 'node_modules' \
-          -- exclude 'web/sites/default/settings.php'\
           -e "ssh -i ~/.ssh/id_rsa" \
           ./ ubuntu@${{ secrets.EC2_HOST }}:/var/www/mysite
 
