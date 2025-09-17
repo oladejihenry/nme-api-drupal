@@ -9,7 +9,6 @@
 
 # Composer / PHP
 /vendor
-/composer.lock
 
 # Drupal-specific
 /sites/*/files
