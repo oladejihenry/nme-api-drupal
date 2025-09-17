@@ -44,15 +44,31 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            set -e
+
             cd /var/www/mysite
+
+            # Install backend deps
             composer install --no-dev --optimize-autoloader
+
+            # Ensure file & temp directories exist with correct perms
             sudo mkdir -p web/sites/default/files/css \
                          web/sites/default/files/js \
                          web/sites/default/files/php \
                          web/sites/default/files/temp
             sudo chown -R www-data:www-data web/sites/default/files
             sudo chmod -R 775 web/sites/default/files
-            vendor/bin/drush config:set system.file path.temporary sites/default/files/temp -y
+
+            # Run DB updates
             vendor/bin/drush updatedb -y --uri=default
-            vendor/bin/drush config:import -y --uri=default
+
+            # Run config import ONLY if sync dir exists and has YAML files
+            if [ -d "web/sites/default/files/sync" ] && [ "$(ls -1 web/sites/default/files/sync/*.yml 2>/dev/null | wc -l)" -gt 0 ]; then
+              echo "Config sync directory found with content, running config import..."
+              vendor/bin/drush config:import -y --uri=default
+            else
+              echo "No config sync directory or empty, skipping config import."
+            fi
+
+            # Clear caches
             vendor/bin/drush cache:rebuild -y --uri=default
