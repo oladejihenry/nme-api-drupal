@@ -50,3 +50,5 @@ jobs:
             vendor/bin/drush updatedb -y
             vendor/bin/drush config:import -y
             vendor/bin/drush cache:rebuild -y
+            vendor/bin/drush cr
+            vendor/bin/drush theme:compile -y || true  # optional if using theme build tools
