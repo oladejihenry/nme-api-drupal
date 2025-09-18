@@ -8,10 +8,23 @@
 /package-lock.json
 
 # Composer / PHP
-/vendor
+/vendor/
 
 # Drupal-specific
 /sites/*/files
 /sites/*/private
 /sites/*/settings*.php
 /config/sync
+
+# Ignore .env file
+.env
+
+
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/vendor/
+/web/sites/default/files/
+/web/sites/*/settings.local.php
+
+**/.gitignore
