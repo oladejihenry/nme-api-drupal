@@ -3,40 +3,82 @@ name: Deploy to EC2
 on:
   push:
     branches: [main]
+  workflow_dispatch: # Allow manual deployment
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v4
         with:
           php-version: "8.3"
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, dom, filter, gd, json, libxml, openssl, pcre, reflection, session, simplexml, spl, standard, tokenizer, zip, zlib, curl, fileinfo, hash, mysqlnd, sodium, xmlreader, xmlwriter
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
       - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader
-
-      - name: Rsync files to EC2
         run: |
+          composer install --no-dev --optimize-autoloader --no-interaction
+          composer dump-autoload --optimize
+
+      - name: Create deployment package
+        run: |
+          # Create a deployment directory
+          mkdir -p deployment
+
+          # Copy files excluding development files
+          rsync -av --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '.ddev' \
+            --exclude 'node_modules' \
+            --exclude 'tests' \
+            --exclude 'web/sites/default/files' \
+            --exclude 'web/sites/default/settings.local.php' \
+            --exclude 'web/sites/default/settings.ddev.php' \
+            --exclude '.env' \
+            --exclude 'deployment' \
+            --exclude '*.md' \
+            --exclude '.editorconfig' \
+            --exclude '.gitignore' \
+            --exclude '.gitattributes' \
+            ./ deployment/
+
+      - name: Deploy to EC2
+        run: |
+          # Setup SSH
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
+          # Add EC2 to known hosts
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
+          # Create backup of current deployment
+          ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} "
+            if [ -d /var/www/mysite ]; then
+              sudo cp -r /var/www/mysite /var/www/mysite.backup.$(date +%Y%m%d_%H%M%S)
+            fi
+          "
+
+          # Deploy files
           rsync -avz --delete \
-          --exclude 'web/sites/default/files' \
-          --exclude 'config/sync' \
-          --exclude '.git' \
-          --exclude '.env' \
-          --exclude 'node_modules' \
-          -e "ssh -i ~/.ssh/id_rsa" \
-          ./ ubuntu@${{ secrets.EC2_HOST }}:/var/www/mysite
+            -e "ssh -i ~/.ssh/id_rsa" \
+            deployment/ ubuntu@${{ secrets.EC2_HOST }}:/var/www/mysite/
 
       - name: Run deployment commands on EC2
         uses: appleboy/ssh-action@v0.1.7
@@ -46,7 +88,55 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /var/www/mysite
-            composer install --no-dev --optimize-autoloader
 
+            # Set proper permissions
+            sudo chown -R www-data:www-data /var/www/mysite
+            sudo chmod -R 755 /var/www/mysite
+            sudo chmod -R 775 /var/www/mysite/web/sites/default/files
 
+            # Install/update Composer dependencies
+            composer install --no-dev --optimize-autoloader --no-interaction
+
+            # Set up environment file if it doesn't exist
+            if [ ! -f .env ]; then
+              sudo -u www-data cp .env.example .env
+            fi
+
+            # Run Drupal deployment commands
             sudo -u www-data vendor/bin/drush cache:rebuild -y
+            sudo -u www-data vendor/bin/drush updatedb -y
+            sudo -u www-data vendor/bin/drush config:import -y
+
+            # Enable the NME News module if not already enabled
+            sudo -u www-data vendor/bin/drush pm:list --filter=nme_news --status=enabled || sudo -u www-data vendor/bin/drush en nme_news -y
+
+            # Clear all caches
+            sudo -u www-data vendor/bin/drush cache:rebuild -y
+
+            # Set proper file permissions after deployment
+            sudo chown -R www-data:www-data /var/www/mysite
+            sudo find /var/www/mysite -type d -exec chmod 755 {} \;
+            sudo find /var/www/mysite -type f -exec chmod 644 {} \;
+            sudo chmod -R 775 /var/www/mysite/web/sites/default/files
+
+      - name: Health Check
+        run: |
+          # Wait a moment for deployment to complete
+          sleep 10
+
+          # Check if site is responding
+          curl -f -s -o /dev/null https://${{ secrets.EC2_HOST }} || {
+            echo "Site health check failed"
+            exit 1
+          }
+
+          echo "Deployment completed successfully!"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          # Clean up deployment directory
+          rm -rf deployment
+
+          # Clean up SSH key
+          rm -f ~/.ssh/id_rsa
