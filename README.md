@@ -4,7 +4,7 @@ A modern Drupal 11 platform featuring a custom NME News API module that fetches 
 
 ![NME News Drupal Platform](https://cdn.fortiplacecdn.com/Screenshot%202025-09-18%20at%2017.19.08.png)
 
-## �� Features
+## Features
 
 - **Custom NME News Module** - Fetches latest news from NME API
 - **Responsive Design** - Modern UI with Tailwind CSS
@@ -96,7 +96,7 @@ ddev drush en nme_news -y
 ddev drush cr
 ```
 
-## �� Setup Instructions
+## Setup Instructions
 
 ### Database Configuration
 
@@ -151,7 +151,7 @@ Visit your site's front page to see the NME news feed in action. The block will 
 - Article excerpts
 - "Read More" links to full articles
 
-## �� Customization
+## Customization
 
 ### Styling
 
@@ -170,7 +170,7 @@ The NME News Block supports various configuration options:
 - **Region placement**: Place in any Drupal region
 - **Visibility rules**: Show/hide based on pages, roles, etc.
 
-## �� Development
+## Development
 
 ### Local Development Commands
 
@@ -217,6 +217,7 @@ ddev drush user:login
 
 ### Code Structure
 
+```bash
 web/modules/custom/nme_news/
 ├── nme_news.info.yml # Module information
 ├── nme_news.module # Module hooks and theme functions
@@ -234,6 +235,7 @@ web/modules/custom/nme_news/
 └── templates/
 ├── nme-news-block.html.twig # Block template
 └── nme-news-article.html.twig # Article template
+```
 
 ## 🧪 Testing
 
@@ -383,7 +385,7 @@ The module integrates with the NME WordPress REST API:
 - Update documentation
 - Use meaningful commit messages
 
-## �� License
+## License
 
 This project is licensed under the GPL-2.0-or-later License - see the [LICENSE](LICENSE) file for details.
 
