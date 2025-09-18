@@ -28,7 +28,3 @@
 /web/sites/*/settings.local.php
 
 **/.gitignore
-
-deployment/
-
-*.backup.*
