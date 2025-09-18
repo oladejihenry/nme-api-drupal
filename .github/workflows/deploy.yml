@@ -48,26 +48,5 @@ jobs:
             cd /var/www/mysite
             composer install --no-dev --optimize-autoloader
 
-            # Ensure writable dirs exist
-            sudo mkdir -p web/sites/default/files/css \
-                        web/sites/default/files/js \
-                        web/sites/default/files/php \
-                        web/sites/default/files/temp
 
-            # Fix ownership and permissions
-            sudo chown -R www-data:www-data web/sites/default/files
-            sudo find web/sites/default/files -type d -exec chmod 775 {} \;
-            sudo find web/sites/default/files -type f -exec chmod 664 {} \;
-
-            # Optional: clean up old caches before Drush runs
-            sudo -u www-data rm -rf web/sites/default/files/css/* web/sites/default/files/js/* || true
-
-            # Drupal tasks (as www-data for safety)
-            sudo -u www-data vendor/bin/drush config:set system.file path.temporary sites/default/files/temp -y
-            sudo -u www-data vendor/bin/drush updatedb -y
-            if [ -d config/sync ] && [ "$(ls -A config/sync)" ]; then
-              sudo -u www-data vendor/bin/drush config:import -y
-            else
-              echo "⚠️ No config found to import, skipping."
-            fi
             sudo -u www-data vendor/bin/drush cache:rebuild -y

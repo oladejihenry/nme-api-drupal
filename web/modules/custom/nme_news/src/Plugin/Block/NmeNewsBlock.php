@@ -60,6 +60,7 @@ class NmeNewsBlock extends BlockBase implements ContainerFactoryPluginInterface
      */
     public function build()
     {
+        // The service will automatically use the configured articles_per_page
         $articles = $this->nmeNewsService->fetchLatestNews();
 
         // Convert articles to render arrays
@@ -86,6 +87,8 @@ class NmeNewsBlock extends BlockBase implements ContainerFactoryPluginInterface
      */
     public function getCacheMaxAge()
     {
-        return 3600; // Cache for 1 hour
+        // Get cache duration from config
+        $config = \Drupal::config('nme_news.settings');
+        return $config->get('cache_duration') ?: 3600;
     }
 }

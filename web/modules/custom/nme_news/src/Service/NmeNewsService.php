@@ -33,8 +33,13 @@ class NmeNewsService
      * @return array
      */
 
-    public function fetchLatestNews($per_page = 12)
+    public function fetchLatestNews($per_page = null)
     {
+        if ($per_page === null) {
+            $config = $this->configFactory->get('nme_news.settings');
+            $per_page = $config->get('articles_per_page') ?: 12;
+        }
+
         $cache_key = 'nme_news_latest_' . $per_page;
         $cache = $this->cache->get($cache_key);
         if ($cache) {
@@ -52,8 +57,12 @@ class NmeNewsService
             if ($response->getStatusCode() === 200) {
                 $data = json_decode($response->getBody()->getContents(), true);
 
+                //get cache duration from config
+                $config = $this->configFactory->get('nme_news.settings');
+                $cache_duration = $config->get('cache_duration') ?: 3600;
+
                 //cahce for 1 hour
-                $this->cache->set($cache_key, $data, time() + 3600);
+                $this->cache->set($cache_key, $data, time() + $cache_duration);
                 return $data;
             }
         } catch (RequestException $e) {
@@ -89,7 +98,12 @@ class NmeNewsService
             ]);
             if ($response->getStatusCode() === 200) {
                 $data = json_decode($response->getBody()->getContents(), true);
-                $this->cache->set($cache_key, $data, time() + 3600);
+
+                //get cache duration from config
+                $config = $this->configFactory->get('nme_news.settings');
+                $cache_duration = $config->get('cache_duration') ?: 3600;
+
+                $this->cache->set($cache_key, $data, time() + $cache_duration);
                 return $data;
             }
         } catch (RequestException $e) {
@@ -98,5 +112,27 @@ class NmeNewsService
             ]);
         }
         return [];
+    }
+
+    /**
+     * Clear cache when configuration changes
+     */
+
+    public function clearCache()
+    {
+        $cache_keys = [
+            'nme_news_latest_6',
+            'nme_news_latest_12',
+            'nme_news_latest_18',
+            'nme_news_latest_24',
+            'nme_news_latest_30',
+            'nme_news_latest_36',
+            'nme_news_latest_42',
+            'nme_news_latest_48',
+        ];
+
+        foreach ($cache_keys as $cache_key) {
+            $this->cache->delete($cache_key);
+        }
     }
 }

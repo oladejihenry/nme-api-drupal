@@ -4,10 +4,28 @@ namespace Drupal\nme_news\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\nme_news\Service\NmeNewsService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class NmeNewsConfigForm extends ConfigFormBase
 {
 
+    /**
+     * The NME News service.
+     *
+     * @var \Drupal\nme_news\Service\NmeNewsService
+     */
+    protected $nmeNewsService;
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function create(ContainerInterface $container)
+    {
+        $instance = parent::create($container);
+        $instance->nmeNewsService = $container->get('nme_news.service');
+        return $instance;
+    }
 
     /**
      * {@inheritdoc}
@@ -55,6 +73,13 @@ class NmeNewsConfigForm extends ConfigFormBase
             '#description' => $this->t('How long to cache the news articles.'),
         ];
 
+        $form['actions']['clear_cache'] = [
+            '#type' => 'submit',
+            '#value' => $this->t('Clear Cache'),
+            '#submit' => ['::clearCache'],
+            '#weight' => 10,
+        ];
+
         return parent::buildForm($form, $form_state);
     }
 
@@ -63,11 +88,35 @@ class NmeNewsConfigForm extends ConfigFormBase
      */
     public function submitForm(array &$form, FormStateInterface $form_state)
     {
+        $old_config = $this->config('nme_news.settings');
+        $old_articles_per_page = $old_config->get('articles_per_page');
+        $old_cache_duration = $old_config->get('cache_duration');
+
+        $new_articles_per_page = $form_state->getValue('articles_per_page');
+        $new_cache_duration = $form_state->getValue('cache_duration');
+
         $this->config('nme_news.settings')
-            ->set('articles_per_page', $form_state->getValue('articles_per_page'))
-            ->set('cache_duration', $form_state->getValue('cache_duration'))
+            ->set('articles_per_page', $new_articles_per_page)
+            ->set('cache_duration', $new_cache_duration)
             ->save();
 
+        // Clear cache if articles per page or cache duration changed
+        if ($old_articles_per_page != $new_articles_per_page || $old_cache_duration != $new_cache_duration) {
+            $this->nmeNewsService->clearCache();
+            $this->messenger()->addMessage($this->t('Configuration saved and cache cleared.'));
+        } else {
+            $this->messenger()->addMessage($this->t('Configuration saved.'));
+        }
+
         parent::submitForm($form, $form_state);
+    }
+
+    /**
+     * Clear cache submit handler.
+     */
+    public function clearCache(array &$form, FormStateInterface $form_state)
+    {
+        $this->nmeNewsService->clearCache();
+        $this->messenger()->addMessage($this->t('NME News cache cleared.'));
     }
 }
