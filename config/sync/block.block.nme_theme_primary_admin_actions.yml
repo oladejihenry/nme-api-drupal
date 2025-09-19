@@ -1,0 +1,20 @@
+uuid: aedb9ba8-c9ac-473f-905e-4f1296ca0b8f
+langcode: en
+status: true
+dependencies:
+  theme:
+    - nme_theme
+_core:
+  default_config_hash: Q9_2whdOj1YIomfvsIfopROW4FT_X5pY0DjdOiOaQ5U
+id: nme_theme_primary_admin_actions
+theme: nme_theme
+region: highlighted
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

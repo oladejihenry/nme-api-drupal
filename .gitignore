@@ -14,7 +14,6 @@
 /sites/*/files
 /sites/*/private
 /sites/*/settings*.php
-/config/sync
 
 # Ignore .env file
 .env

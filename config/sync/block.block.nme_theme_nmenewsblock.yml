@@ -1,0 +1,20 @@
+uuid: 513b2e56-f372-47a6-abfa-d19d1310aaaf
+langcode: en
+status: true
+dependencies:
+  module:
+    - nme_news
+  theme:
+    - nme_theme
+id: nme_theme_nmenewsblock
+theme: nme_theme
+region: content
+weight: -5
+provider: null
+plugin: nme_news_block
+settings:
+  id: nme_news_block
+  label: 'NME News Block'
+  label_display: visible
+  provider: nme_news
+visibility: {  }

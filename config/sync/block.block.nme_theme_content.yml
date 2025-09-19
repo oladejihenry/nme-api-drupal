@@ -1,0 +1,22 @@
+uuid: b03e014f-803e-463b-95c6-b6309c7b626c
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - nme_theme
+_core:
+  default_config_hash: erQSEZF2XUjNmgTl0uNRBzmg18ZGXwUcw2FhApoeuHk
+id: nme_theme_content
+theme: nme_theme
+region: content
+weight: -6
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,20 @@
+uuid: 9ec23065-41dc-4095-8d29-98e5aa8cf4b4
+langcode: en
+status: true
+dependencies:
+  module:
+    - nme_news
+  theme:
+    - olivero
+id: olivero_nmenewsblock
+theme: olivero
+region: content_below
+weight: -6
+provider: null
+plugin: nme_news_block
+settings:
+  id: nme_news_block
+  label: 'NME News Block'
+  label_display: visible
+  provider: nme_news
+visibility: {  }
