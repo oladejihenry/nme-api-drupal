@@ -135,6 +135,7 @@ $databases['default']['default'] = [
     'pdo' => [
         PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
     ],
+    'isolation_level' => 'READ COMMITTED',
 ];
 
 
