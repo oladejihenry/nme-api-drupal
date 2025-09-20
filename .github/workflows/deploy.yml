@@ -11,14 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-
-      - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader
-
       - name: Rsync files to EC2
         run: |
           mkdir -p ~/.ssh
@@ -34,6 +26,7 @@ jobs:
           --exclude '.git' \
           --exclude '.env' \
           --exclude 'node_modules' \
+          --exclude 'vendor' \
           -e "ssh -i ~/.ssh/id_rsa" \
           ./ ubuntu@${{ secrets.EC2_HOST }}:/var/www/mysite
 
@@ -45,28 +38,24 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /var/www/mysite
+
+            # Install composer deps on server
             composer install --no-dev --optimize-autoloader
 
             # Ensure writable dirs exist
-            sudo mkdir -p web/sites/default/files/css \
-                        web/sites/default/files/js \
-                        web/sites/default/files/php \
-                        web/sites/default/files/temp
+            sudo mkdir -p web/sites/default/files/{css,js,php,temp}
 
-            # Fix ownership and permissions
+            # File/folder permissions
             sudo chown -R www-data:www-data web/sites/default/files
             sudo find web/sites/default/files -type d -exec chmod 775 {} \;
             sudo find web/sites/default/files -type f -exec chmod 664 {} \;
 
-            # Optional: clean up old caches before Drush runs
+            # Clean caches
             sudo -u www-data rm -rf web/sites/default/files/css/* web/sites/default/files/js/* || true
 
-            # Drupal tasks (as www-data for safety)
-            sudo -u www-data vendor/bin/drush config:set system.file path.temporary sites/default/files/temp -y
+            # Drupal tasks
             sudo -u www-data vendor/bin/drush updatedb -y
             if [ -d config/sync ] && [ "$(ls -A config/sync)" ]; then
               sudo -u www-data vendor/bin/drush config:import -y
-            else
-              echo "⚠️ No config found to import, skipping."
             fi
             sudo -u www-data vendor/bin/drush cache:rebuild -y
