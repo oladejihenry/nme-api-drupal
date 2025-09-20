@@ -243,22 +243,14 @@ web/modules/custom/nme_news/
 
 ```bash
 # Run unit tests
-ddev exec phpunit web/modules/custom/nme_news/tests/src/Unit/
-
-# Run functional tests
-ddev exec phpunit web/modules/custom/nme_news/tests/src/Functional/
-
-# Run all tests
-ddev exec phpunit web/modules/custom/nme_news/tests/
+ddev exec ./vendor/bin/phpunit -c web/core --testdox --display-deprecations web/modules/custom/nme_news/tests/src
 ```
 
 ### Test Coverage
 
 The module includes comprehensive tests:
 
-- **Unit Tests**: Service class methods and caching
-- **Functional Tests**: Block placement and configuration
-- **Integration Tests**: End-to-end workflows
+- **Unit Tests**: Service class methods
 
 ## 🚀 Deployment
 
