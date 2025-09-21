@@ -19,8 +19,12 @@ class NmeNewsService
 
     protected $loggerFactory;
 
-    public function __construct(ClientInterface $httpClient, CacheBackendInterface $cache, ConfigFactoryInterface $configFactory, LoggerChannelFactoryInterface $loggerFactory)
-    {
+    public function __construct(
+        ClientInterface $httpClient,
+        CacheBackendInterface $cache,
+        ConfigFactoryInterface $configFactory,
+        LoggerChannelFactoryInterface $loggerFactory
+    ) {
         $this->httpClient = $httpClient;
         $this->cache = $cache;
         $this->configFactory = $configFactory;

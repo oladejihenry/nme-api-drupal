@@ -36,8 +36,12 @@ class NmeNewsBlock extends BlockBase implements ContainerFactoryPluginInterface
      * @param mixed $plugin_definition
      *   The plugin implementation definition.
      */
-    public function __construct(array $configuration, $plugin_id, $plugin_definition, NmeNewsService $nme_news_service)
-    {
+    public function __construct(
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        NmeNewsService $nme_news_service
+    ) {
         parent::__construct($configuration, $plugin_id, $plugin_definition);
         $this->nmeNewsService = $nme_news_service;
     }
@@ -45,8 +49,12 @@ class NmeNewsBlock extends BlockBase implements ContainerFactoryPluginInterface
     /**
      * {@inheritdoc}
      */
-    public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
-    {
+    public static function create(
+        ContainerInterface $container,
+        array $configuration,
+        $plugin_id,
+        $plugin_definition
+    ) {
         return new static(
             $configuration,
             $plugin_id,
