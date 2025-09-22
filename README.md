@@ -45,22 +45,20 @@ Edit the `.env` file with your preferred settings:
 
 ```env
 # Database Configuration
-DB_NAME=drupal
-DB_USER=drupal
-DB_PASSWORD=drupal
-DB_HOST=db
-DB_PORT=3306
+MYSQL_DATABASE=
+MYSQL_HOSTNAME=
+MYSQL_PASSWORD=
+MYSQL_PORT=
+MYSQL_USER=
 
 # Site Configuration
 SITE_NAME="NME News Platform"
 SITE_MAIL=admin@example.com
 ADMIN_USER=admin
 ADMIN_PASSWORD=admin
-
-# API Configuration
-NME_API_URL=https://www.nme.com/wp-json/wp/v2/posts/
-NME_CACHE_DURATION=3600
-NME_ARTICLES_PER_PAGE=12
+DRUSH_OPTIONS_URI=
+HASH_SALT=
+PROD=
 ```
 
 ### 3. Start DDEV Environment
