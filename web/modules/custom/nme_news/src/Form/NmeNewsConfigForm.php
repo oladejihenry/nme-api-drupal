@@ -73,6 +73,14 @@ class NmeNewsConfigForm extends ConfigFormBase
             '#description' => $this->t('How long to cache the news articles.'),
         ];
 
+        $form['nm_api_url'] = [
+            '#type' => 'url',
+            '#title' => $this->t('NME API URL'),
+            '#default_value' => $config->get('nm_api_url') ?: 'https://www.nme.com/wp-json/wp/v2/posts',
+            '#description' => $this->t('The API endpoint used to fetch news articles from NME.'),
+            '#required' => TRUE,
+        ];
+
         $form['actions']['clear_cache'] = [
             '#type' => 'submit',
             '#value' => $this->t('Clear Cache'),
@@ -91,17 +99,20 @@ class NmeNewsConfigForm extends ConfigFormBase
         $old_config = $this->config('nme_news.settings');
         $old_articles_per_page = $old_config->get('articles_per_page');
         $old_cache_duration = $old_config->get('cache_duration');
+        $old_nm_api_url = $old_config->get('nm_api_url');
 
         $new_articles_per_page = $form_state->getValue('articles_per_page');
         $new_cache_duration = $form_state->getValue('cache_duration');
+        $new_nm_api_url = $form_state->getValue('nm_api_url');
 
         $this->config('nme_news.settings')
             ->set('articles_per_page', $new_articles_per_page)
             ->set('cache_duration', $new_cache_duration)
+            ->set('nm_api_url', $new_nm_api_url)
             ->save();
 
         // Clear cache if articles per page or cache duration changed
-        if ($old_articles_per_page != $new_articles_per_page || $old_cache_duration != $new_cache_duration) {
+        if ($old_nm_api_url != $new_nm_api_url || $old_articles_per_page != $new_articles_per_page || $old_cache_duration != $new_cache_duration) {
             $this->nmeNewsService->clearCache();
             $this->messenger()->addMessage($this->t('Configuration saved and cache cleared.'));
         } else {

@@ -51,7 +51,7 @@ class NmeNewsService
         }
 
         try {
-            $url = 'https://www.nme.com/wp-json/wp/v2/posts/?per_page=' . $per_page;
+            $url = $this->configFactory->get('nme_news.settings')->get('nm_api_url') . '/?per_page=' . $per_page;
             $response = $this->httpClient->request('GET', $url, [
                 'timeout' => 30,
                 'headers' => [
@@ -93,7 +93,7 @@ class NmeNewsService
         }
 
         try {
-            $url = 'https://www.nme.com/wp-json/wp/v2/posts/' . $id;
+            $url = $this->configFactory->get('nme_news.settings')->get('nm_api_url') . '/' . $id;
             $response = $this->httpClient->request('GET', $url, [
                 'timeout' => 30,
                 'headers' => [
