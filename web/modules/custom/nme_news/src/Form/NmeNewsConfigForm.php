@@ -81,12 +81,6 @@ class NmeNewsConfigForm extends ConfigFormBase
             '#required' => TRUE,
         ];
 
-        $form['actions']['clear_cache'] = [
-            '#type' => 'submit',
-            '#value' => $this->t('Clear Cache'),
-            '#submit' => ['::clearCache'],
-            '#weight' => 10,
-        ];
 
         return parent::buildForm($form, $form_state);
     }
