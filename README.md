@@ -231,6 +231,11 @@ web/modules/custom/nme_news/
 │ └── Form/
 │ └── NmeNewsConfigForm.php # Configuration form
 └── templates/
+├── tests/
+│ └── src/
+│ │ └── Unit/
+│ │ └── Service/
+│ │ └── NmeNewsServiceTest.php # Unit test class
 ├── nme-news-block.html.twig # Block template
 └── nme-news-article.html.twig # Article template
 ```
