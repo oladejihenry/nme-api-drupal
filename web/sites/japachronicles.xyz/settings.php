@@ -11,7 +11,7 @@ $databases['default']['default'] = [
     'prefix' => '',
     'username' => $_ENV['JAPACHRONICLES_MYSQL_USER'],
     'pdo' => [
-        PDO::MYSQL_ATTR_SSL_CA => '/var/www/japachronicles.crt',
+        PDO::MYSQL_ATTR_SSL_CA => '/var/www/japs.crt',
     ],
     'isolation_level' => 'READ COMMITTED',
 ];
