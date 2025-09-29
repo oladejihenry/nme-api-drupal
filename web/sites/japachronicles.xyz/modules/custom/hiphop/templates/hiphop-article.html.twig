@@ -5,9 +5,9 @@
  */
 #}
 <article{{ attributes.addClass('hiphop-article') }}>
-  {% if article.thumbnail_url %}
+  {% if article.jetpack_featured_media_url %}
     <div class="relative overflow-hidden">
-      <img src="{{ article.thumbnail_url }}" 
+      <img src="{{ article.jetpack_featured_media_url }}" 
            alt="{{ article.title.rendered|striptags }}" 
            class="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
            loading="lazy">
@@ -41,7 +41,7 @@
         </svg>
       </a>
       
-      {% if not article.thumbnail_url %}
+      {% if not article.jetpack_featured_media_url %}
         <span class="text-xs text-gray-400">HipHop</span>
       {% endif %}
     </div>

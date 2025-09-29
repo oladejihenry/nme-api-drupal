@@ -76,8 +76,8 @@ function hiphop_preprocess_hiphop_article(&$variables) {
     $variables['excerpt'] = substr($content, 0, 150) . '...';
   }
   
-  // Ensure thumbnail_url is available
-  if (isset($article['thumbnail_url'])) {
-    $variables['article']['thumbnail_url'] = $article['thumbnail_url'];
+  // Ensure jetpack_featured_media_url is available
+  if (isset($article['jetpack_featured_media_url'])) {
+    $variables['article']['jetpack_featured_media_url'] = $article['jetpack_featured_media_url'];
   }
 }
