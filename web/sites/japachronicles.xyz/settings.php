@@ -21,9 +21,9 @@ $settings['hash_salt'] = $_ENV['JAPACHRONICLES_HASH_SALT'];
 
 
 
-if (empty($settings['config_sync_directory'])) {
-    $settings['config_sync_directory'] = '../config/sync/japachronicles.xyz';
-}
+// if (empty($settings['config_sync_directory'])) {
+//     $settings['config_sync_directory'] = '../config/sync/japachronicles.xyz';
+// }
 
 
 $settings['skip_permissions_hardening'] = TRUE;
