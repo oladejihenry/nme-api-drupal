@@ -49,8 +49,3 @@ $settings['state_cache'] = TRUE;
 
 
 $settings['migrate_node_migrate_type_classic'] = FALSE;
-
-
-if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev.php')) {
-    include __DIR__ . '/settings.ddev.php';
-}
