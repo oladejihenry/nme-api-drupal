@@ -20,8 +20,14 @@ jobs:
           script: |
             # Create target directory with proper permissions
             sudo mkdir -p /var/www/mysite
-            sudo chown ubuntu:ubuntu /var/www/mysite
-            sudo chmod 755 /var/www/mysite
+            sudo chown -R ubuntu:ubuntu /var/www/mysite
+            sudo chmod -R 755 /var/www/mysite
+
+            # Ensure web/sites directory structure exists with proper permissions
+            sudo mkdir -p /var/www/mysite/web/sites/default
+            sudo mkdir -p /var/www/mysite/web/sites/japachronicles.xyz
+            sudo chown -R ubuntu:ubuntu /var/www/mysite/web/sites
+            sudo chmod -R 755 /var/www/mysite/web/sites
 
       - name: Rsync project files to EC2
         run: |
