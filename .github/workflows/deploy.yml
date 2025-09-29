@@ -43,20 +43,33 @@ jobs:
             # Install dependencies (Drupal core + contrib modules + vendor libs)
             composer install --no-dev --optimize-autoloader --prefer-dist --no-progress
 
-            # Ensure writable dirs exist
+            # Default site
             sudo mkdir -p web/sites/default/files/{css,js,php,temp}
+            sudo mkdir -p web/sites/default/config/sync
+            sudo cp -n web/sites/default/default.settings.php web/sites/default/settings.php
 
-            # Fix permissions
-            sudo chown -R www-data:www-data web/sites/default/files
-            sudo find web/sites/default/files -type d -exec chmod 775 {} \;
-            sudo find web/sites/default/files -type f -exec chmod 664 {} \;
+            # Japachronicles site
+            sudo mkdir -p web/sites/japachronicles.xyz/files/{css,js,php,temp}
+            sudo mkdir -p web/sites/japachronicles.xyz/config/sync
+            sudo cp -n web/sites/default/default.settings.php web/sites/japachronicles.xyz/settings.php
 
-            # Clean caches
+            sudo chown -R www-data:www-data web/sites
+            sudo find web/sites -type d -exec chmod 775 {} \;
+            sudo find web/sites -type f -exec chmod 664 {} \;
+
             sudo -u www-data rm -rf web/sites/default/files/css/* web/sites/default/files/js/* || true
+            sudo -u www-data rm -rf web/sites/japachronicles.xyz/files/css/* web/sites/japachronicles.xyz/files/js/* || true
 
-            # Drupal tasks
-            sudo -u www-data vendor/bin/drush updatedb -y
-            if [ -d config/sync ] && [ "$(ls -A config/sync)" ]; then
-              sudo -u www-data vendor/bin/drush config:import -y
+            # Default site
+            sudo -u www-data vendor/bin/drush -l penzest.dev updatedb -y
+            if [ -d web/sites/default/config/sync ] && [ "$(ls -A web/sites/default/config/sync)" ]; then
+              sudo -u www-data vendor/bin/drush -l penzest.dev config:import -y
             fi
-            sudo -u www-data vendor/bin/drush cache:rebuild -y
+            sudo -u www-data vendor/bin/drush -l penzest.dev cache:rebuild -y
+
+            # Japachronicles site
+            sudo -u www-data vendor/bin/drush -l japachronicles.xyz updatedb -y
+            if [ -d web/sites/japachronicles.xyz/config/sync ] && [ "$(ls -A web/sites/japachronicles.xyz/config/sync)" ]; then
+              sudo -u www-data vendor/bin/drush -l japachronicles.xyz config:import -y
+            fi
+            sudo -u www-data vendor/bin/drush -l japachronicles.xyz cache:rebuild -y
