@@ -22,13 +22,17 @@ jobs:
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
           rsync -avz --delete \
-          --exclude 'web/sites/default/files' \
+          --exclude 'web/sites/*/files' \
+          --exclude 'web/sites/*/settings.php' \
+          --exclude 'web/sites/*/*.settings.*.php' \
+          --exclude 'web/sites/*/*.yml' \
           --exclude 'vendor' \
           --exclude 'web/core' \
           --exclude '.git' \
           --exclude '.env' \
           --exclude 'node_modules' \
           -e "ssh -i ~/.ssh/id_rsa" \
+          --chown=www-data:www-data \
           ./ ubuntu@${{ secrets.EC2_HOST }}:/var/www/mysite
 
       - name: Run deployment commands on EC2
