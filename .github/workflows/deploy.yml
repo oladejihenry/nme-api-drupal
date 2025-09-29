@@ -11,6 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Prepare EC2 directories
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Create target directory with proper permissions
+            sudo mkdir -p /var/www/mysite
+            sudo chown ubuntu:ubuntu /var/www/mysite
+            sudo chmod 755 /var/www/mysite
+
       - name: Rsync project files to EC2
         run: |
           mkdir -p ~/.ssh
@@ -32,7 +44,6 @@ jobs:
           --exclude '.env' \
           --exclude 'node_modules' \
           -e "ssh -i ~/.ssh/id_rsa" \
-          --chown=www-data:www-data \
           ./ ubuntu@${{ secrets.EC2_HOST }}:/var/www/mysite
 
       - name: Run deployment commands on EC2
