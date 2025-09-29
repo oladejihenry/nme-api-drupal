@@ -1,0 +1,5 @@
+services:
+  hiphop.service:
+    class: Drupal\hiphop\Service\HipHopNewsService
+    arguments:
+      ["@http_client", "@cache.default", "@config.factory", "@logger.factory"]

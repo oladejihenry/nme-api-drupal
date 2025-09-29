@@ -1,0 +1,6 @@
+hiphop.config:
+  title: "HipHop News"
+  description: "Configure HipHop News module settings"
+  parent: system.admin_config_content
+  route_name: hiphop.config
+  weight: 100

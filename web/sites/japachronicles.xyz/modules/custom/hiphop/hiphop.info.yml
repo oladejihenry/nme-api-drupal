@@ -1,0 +1,7 @@
+name: "HipHop News"
+type: module
+description: "Fetch and display latest hiphop news from HipHopNMore API"
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:system

@@ -1,0 +1,7 @@
+hiphop.config:
+  path: "/admin/config/content/hiphop"
+  defaults:
+    _form: '\Drupal\hiphop\Form\HipHopConfigForm'
+    _title: "HipHop News Configuration"
+  requirements:
+    _permission: "administer site configuration"

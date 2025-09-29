@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * HipHop News module functionality.
+ */
+
+use Drupal\Core\Template\Attribute;
+
+
+/**
+ * Implements hook_theme().
+ */
+function hiphop_theme() {
+  return [
+    'hiphop_block' => [
+      'variables' => [
+        'articles' => [],
+        'title' => 'Latest HipHop News',
+      ],
+      'template' => 'hiphop-block',
+    ],
+    'hiphop_article' => [
+      'variables' => [
+        'article' => [],
+      ],
+      'template' => 'hiphop-article',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function hiphop_preprocess_hiphop_block(&$variables) {
+  $variables['attributes'] = new Attribute([
+    'class' => [
+      'hiphop-block',
+      'max-w-7xl',
+      'mx-auto',
+      'px-4',
+      'py-8',
+    ],
+  ]);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function hiphop_preprocess_hiphop_article(&$variables) {
+  $article = $variables['article'];
+
+  // Add Tailwind CSS classes to the article wrapper
+  $variables['attributes'] = new Attribute([
+    'class' => [
+      'hiphop-article',
+      'bg-white',
+      'rounded-lg',
+      'shadow-md',
+      'overflow-hidden',
+      'hover:shadow-lg',
+      'transition-shadow',
+      'duration-300',
+    ],
+  ]);
+
+  // Format the date
+  if (isset($article['date'])) {
+    $date = new \DateTime($article['date']);
+    $variables['formatted_date'] = $date->format('F j, Y');
+  }
+
+  // Clean up the content excerpt
+  if (isset($article['content']['rendered'])) {
+    $content = strip_tags($article['content']['rendered']);
+    $variables['excerpt'] = substr($content, 0, 150) . '...';
+  }
+  
+  // Ensure thumbnail_url is available
+  if (isset($article['thumbnail_url'])) {
+    $variables['article']['thumbnail_url'] = $article['thumbnail_url'];
+  }
+}
