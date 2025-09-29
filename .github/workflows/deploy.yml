@@ -74,9 +74,19 @@ jobs:
             sudo mkdir -p web/sites/japachronicles.xyz/config/sync
             sudo cp -n web/sites/default/default.settings.php web/sites/japachronicles.xyz/settings.php
 
+            # Create services.yml for japachronicles site if it doesn't exist
+            if [ ! -f web/sites/japachronicles.xyz/services.yml ]; then
+              sudo cp web/sites/default/default.services.yml web/sites/japachronicles.xyz/services.yml
+            fi
+
             sudo chown -R www-data:www-data web/sites
             sudo find web/sites -type d -exec chmod 775 {} \;
             sudo find web/sites -type f -exec chmod 664 {} \;
+
+            # Make critical files read-only for security
+            sudo chmod 444 web/sites/default/settings.php
+            sudo chmod 444 web/sites/japachronicles.xyz/settings.php
+            sudo chmod 444 web/sites/japachronicles.xyz/services.yml
 
             sudo -u www-data rm -rf web/sites/default/files/css/* web/sites/default/files/js/* || true
             sudo -u www-data rm -rf web/sites/japachronicles.xyz/files/css/* web/sites/japachronicles.xyz/files/js/* || true
