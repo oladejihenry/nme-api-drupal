@@ -48,6 +48,8 @@ class NmeNewsBlock extends BlockBase implements ContainerFactoryPluginInterface
 
     /**
      * {@inheritdoc}
+     * This function creates a new instance of the NME News block.
+     * avoids using global calls like \Drupal::service() or \Drupal::getContainer()
      */
     public static function create(
         ContainerInterface $container,

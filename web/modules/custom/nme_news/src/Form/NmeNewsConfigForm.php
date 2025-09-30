@@ -29,6 +29,7 @@ class NmeNewsConfigForm extends ConfigFormBase
 
     /**
      * {@inheritdoc}
+     * Saves the configuration internally in config table or yaml file
      */
     protected function getEditableConfigNames()
     {
@@ -37,6 +38,7 @@ class NmeNewsConfigForm extends ConfigFormBase
 
     /**
      * {@inheritdoc}
+     * Unique form id, track form submissions (used internally by Drupal)
      */
     public function getFormId()
     {
@@ -45,6 +47,7 @@ class NmeNewsConfigForm extends ConfigFormBase
 
     /**
      * {@inheritdoc}
+     * Builds the form
      */
     public function buildForm(array $form, FormStateInterface $form_state)
     {

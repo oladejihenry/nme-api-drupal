@@ -9,6 +9,7 @@ use Drupal\Core\Template\Attribute;
 
 /**
  * Implements hook_theme().
+ * This function defines the themes for the NME News module.
  */
 function nme_news_theme() {
   return [
@@ -30,6 +31,7 @@ function nme_news_theme() {
 
 /**
  * Implements hook_preprocess_HOOK().
+ * This function preprocesses the NME News block.
  */
 function nme_news_preprocess_nme_news_block(&$variables) {
   // Add Tailwind CSS classes to the block wrapper
@@ -46,6 +48,7 @@ function nme_news_preprocess_nme_news_block(&$variables) {
 
 /**
  * Implements hook_preprocess_HOOK().
+ * This function preprocesses the NME News article.
  */
 function nme_news_preprocess_nme_news_article(&$variables) {
   $article = $variables['article'];
@@ -67,7 +70,7 @@ function nme_news_preprocess_nme_news_article(&$variables) {
   // Format the date
   if (isset($article['date'])) {
     $date = new \DateTime($article['date']);
-    $variables['formatted_date'] = $date->format('F j, Y');
+    $variables['formatted_date'] = $date->format('j F, Y');
   }
   
   // Clean up the content excerpt
