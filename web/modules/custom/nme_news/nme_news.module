@@ -76,6 +76,8 @@ function nme_news_preprocess_nme_news_article(&$variables) {
   // Clean up the content excerpt
   if (isset($article['content']['rendered'])) {
     $content = strip_tags($article['content']['rendered']);
+    //Decode HTML entities
+    $content = html_entity_decode($content, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $variables['excerpt'] = substr($content, 0, 150) . '...';
   }
   

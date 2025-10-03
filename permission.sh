@@ -6,7 +6,8 @@ DIRS=(
   web/sites/default/files/private
   web/sites/default/files/tmp
   web/sites/default/files/sync
-  web/sites/default/files/{css,js,php,temp}
+  web/sites/default/files/css
+  web/sites/default/files/js
 )
 
 for dir in "${DIRS[@]}"; do
