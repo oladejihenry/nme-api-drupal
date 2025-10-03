@@ -20,18 +20,18 @@
 $databases['default']['default'] = [
     'driver' => 'mysql',
     'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-    'database' => $_ENV['MYSQLDATABASE'],
-    'username' => $_ENV['MYSQLUSER'],
-    'password' => $_ENV['MYSQLPASSWORD'],
-    'host' => $_ENV['MYSQLHOST'],
-    'port' => $_ENV['MYSQLPORT'],
+    'database' => $_ENV['MYSQLDATABASE'] ?? getenv('MYSQLDATABASE'),
+    'username' => $_ENV['MYSQLUSER'] ?? getenv('MYSQLUSER'),
+    'password' => $_ENV['MYSQLPASSWORD'] ?? getenv('MYSQLPASSWORD'),
+    'host' => $_ENV['MYSQLHOST'] ?? getenv('MYSQLHOST'),
+    'port' => $_ENV['MYSQLPORT'] ?? getenv('MYSQLPORT'),
     'prefix' => '',
     'isolation_level' => 'READ COMMITTED',
 ];
 
 
 
-$settings['hash_salt'] = $_ENV['HASH_SALT'];
+$settings['hash_salt'] = $_ENV['HASH_SALT'] ?? getenv('HASH_SALT');
 
 
 
