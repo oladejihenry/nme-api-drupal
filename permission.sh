@@ -17,6 +17,8 @@ done
 # Set permissions recursively
 chmod -R 775 web/sites/default/files
 
+chmod 444 web/sites/default/settings.php
+
 # Clear Drupal caches
 ./vendor/bin/drush config:import
 ./vendor/bin/drush cr

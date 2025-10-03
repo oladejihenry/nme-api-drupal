@@ -27,3 +27,5 @@
 /web/sites/*/settings.local.php
 
 **/.gitignore
+
+/github/workflows/deploy.yml
