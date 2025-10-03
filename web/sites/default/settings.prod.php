@@ -20,11 +20,11 @@
 $databases['default']['default'] = [
     'driver' => 'mysql',
     'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-    'database' => $_ENV['MYSQL_DATABASE'] ?? $_ENV['MYSQLDATABASE'] ?? 'drupal',
-    'username' => $_ENV['MYSQL_USER'] ?? $_ENV['MYSQLUSER'] ?? 'root',
-    'password' => $_ENV['MYSQL_PASSWORD'] ?? $_ENV['MYSQLPASSWORD'] ?? '',
-    'host' => $_ENV['MYSQL_HOSTNAME'] ?? $_ENV['MYSQLHOST'] ?? '127.0.0.1',
-    'port' => $_ENV['MYSQL_PORT'] ?? $_ENV['MYSQLPORT'] ?? 3306,
+    'database' => $_ENV['MYSQLDATABASE'],
+    'username' => $_ENV['MYSQLUSER'],
+    'password' => $_ENV['MYSQLPASSWORD'],
+    'host' => $_ENV['MYSQLHOST'],
+    'port' => $_ENV['MYSQLPORT'],
     'prefix' => '',
     'isolation_level' => 'READ COMMITTED',
 ];
@@ -101,72 +101,3 @@ $settings['state_cache'] = TRUE;
  * node migrations.
  */
 $settings['migrate_node_migrate_type_classic'] = FALSE;
-
-/**
- * The default settings for migration sources.
- *
- * These settings are used as the default settings on the Credential form at
- * /upgrade/credentials.
- *
- * - migrate_source_version - The version of the source database. This can be
- *   '6' or '7'. Defaults to '7'.
- * - migrate_source_connection - The key in the $databases array for the source
- *   site.
- * - migrate_file_public_path - The location of the source Drupal 6 or Drupal 7
- *   public files. This can be a local file directory containing the source
- *   Drupal 6 or Drupal 7 site (e.g /var/www/docroot), or the site address
- *   (e.g http://example.com).
- * - migrate_file_private_path - The location of the source Drupal 7 private
- *   files. This can be a local file directory containing the source Drupal 7
- *   site (e.g /var/www/docroot), or empty to use the same value as Public
- *   files directory.
- *
- * Sample configuration for a drupal 6 source site with the source files in a
- * local directory.
- *
- * @code
- * $settings['migrate_source_version'] = '6';
- * $settings['migrate_source_connection'] = 'migrate';
- * $settings['migrate_file_public_path'] = '/var/www/drupal6';
- * @endcode
- *
- * Sample configuration for a drupal 7 source site with public source files on
- * the source site and the private files in a local directory.
- *
- * @code
- * $settings['migrate_source_version'] = '7';
- * $settings['migrate_source_connection'] = 'migrate';
- * $settings['migrate_file_public_path'] = 'https://drupal7.com';
- * $settings['migrate_file_private_path'] = '/var/www/drupal7';
- * @endcode
- */
-# $settings['migrate_source_connection'] = '';
-# $settings['migrate_source_version'] = '';
-# $settings['migrate_file_public_path'] = '';
-# $settings['migrate_file_private_path'] = '';
-
-// Automatically generated include for settings managed by ddev.
-
-
-//production settings
-// if (getenv('IS_DDEV_PROJECT') == 'false' && file_exists(__DIR__ . '/settings.prod.php')) {
-//   include __DIR__ . '/settings.prod.php';
-// }
-
-/**
- * Load local development override configuration, if available.
- *
- * Create a settings.local.php file to override variables on secondary (staging,
- * development, etc.) installations of this site.
- *
- * Typical uses of settings.local.php include:
- * - Disabling caching.
- * - Disabling JavaScript/CSS compression.
- * - Rerouting outgoing emails.
- *
- * Keep this code block at the end of this file to take full effect.
- */
-#
-# if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
-#   include $app_root . '/' . $site_path . '/settings.local.php';
-# }
