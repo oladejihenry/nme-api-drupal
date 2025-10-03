@@ -2,20 +2,33 @@
 
 
 
+// $databases['default']['default'] = [
+//     'database' => $_ENV['MYSQL_DATABASE'],
+//     'driver' => 'mysql',
+//     'host' => $_ENV['MYSQL_HOSTNAME'],
+//     'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+//     'password' => $_ENV['MYSQL_PASSWORD'],
+//     'port' => $_ENV['MYSQL_PORT'],
+//     'prefix' => '',
+//     'username' => $_ENV['MYSQL_USER'],
+//     // 'pdo' => [
+//     //     PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
+//     // ],
+//     'isolation_level' => 'READ COMMITTED',
+// ];
+
 $databases['default']['default'] = [
-    'database' => $_ENV['MYSQL_DATABASE'],
     'driver' => 'mysql',
-    'host' => $_ENV['MYSQL_HOSTNAME'],
     'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-    'password' => $_ENV['MYSQL_PASSWORD'],
-    'port' => $_ENV['MYSQL_PORT'],
+    'database' => $_ENV['MYSQL_DATABASE'] ?? $_ENV['MYSQLDATABASE'] ?? 'drupal',
+    'username' => $_ENV['MYSQL_USER'] ?? $_ENV['MYSQLUSER'] ?? 'root',
+    'password' => $_ENV['MYSQL_PASSWORD'] ?? $_ENV['MYSQLPASSWORD'] ?? '',
+    'host' => $_ENV['MYSQL_HOSTNAME'] ?? $_ENV['MYSQLHOST'] ?? '127.0.0.1',
+    'port' => $_ENV['MYSQL_PORT'] ?? $_ENV['MYSQLPORT'] ?? 3306,
     'prefix' => '',
-    'username' => $_ENV['MYSQL_USER'],
-    // 'pdo' => [
-    //     PDO::MYSQL_ATTR_SSL_CA => '/var/www/car.crt',
-    // ],
     'isolation_level' => 'READ COMMITTED',
 ];
+
 
 
 $settings['hash_salt'] = $_ENV['HASH_SALT'];
