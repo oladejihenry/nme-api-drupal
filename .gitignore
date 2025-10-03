@@ -28,4 +28,4 @@
 
 **/.gitignore
 
-/github/workflows/deploy.yml
+/.github/workflows/deploy.yml
