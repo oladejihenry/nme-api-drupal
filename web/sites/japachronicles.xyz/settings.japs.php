@@ -2,22 +2,22 @@
 
 
 $databases['default']['default'] = [
-    'database' => $_ENV['JAPACHRONICLES_MYSQL_DATABASE'],
+    'database' => $_ENV['JAPACHRONICLES_MYSQL_DATABASE'] ?? getenv('MYSQLDATABASE'),
     'driver' => 'mysql',
-    'host' => $_ENV['JAPACHRONICLES_MYSQL_HOSTNAME'],
+    'host' => $_ENV['JAPACHRONICLES_MYSQL_HOSTNAME'] ?? getenv('MYSQLHOST'),
     'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-    'password' => $_ENV['JAPACHRONICLES_MYSQL_PASSWORD'],
-    'port' => $_ENV['JAPACHRONICLES_MYSQL_PORT'],
+    'password' => $_ENV['JAPACHRONICLES_MYSQL_PASSWORD'] ?? getenv('MYSQLPASSWORD'),
+    'port' => $_ENV['JAPACHRONICLES_MYSQL_PORT'] ?? getenv('MYSQLPORT'),
     'prefix' => '',
-    'username' => $_ENV['JAPACHRONICLES_MYSQL_USER'],
-    'pdo' => [
-        PDO::MYSQL_ATTR_SSL_CA => '/var/www/japs.crt',
-    ],
+    'username' => $_ENV['JAPACHRONICLES_MYSQL_USER'] ?? getenv('MYSQLUSER'),
+    // 'pdo' => [
+    //     PDO::MYSQL_ATTR_SSL_CA => '/var/www/japs.crt',
+    // ],
     'isolation_level' => 'READ COMMITTED',
 ];
 
 
-$settings['hash_salt'] = $_ENV['JAPACHRONICLES_HASH_SALT'];
+$settings['hash_salt'] = $_ENV['JAPACHRONICLES_HASH_SALT'] ?? getenv('HASH_SALT');
 
 
 
